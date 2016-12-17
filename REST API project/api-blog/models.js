@@ -15,7 +15,7 @@ function StorageException(message)  {
     this.name = "StorageException";
 }
 
-const BlogPosts = {
+const blogPosts = {
     create: function(title, content, author, publishDate) {
         const post = {
             id: uuid.v4(),

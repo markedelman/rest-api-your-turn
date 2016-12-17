@@ -18,8 +18,8 @@ blogPosts.create('title', 'content', 'author', 'publishDate');
 
 // adding some recipes to `Recipes` so there's something
 // to retrieve.
-blogPosts.create('title1', ['content1', 'author1', 'publishDate1']);
-blogPosts.create('title2', ['content2', 'author2', 'publishDate2']);
+// blogPosts.create('title1', 'content1', 'author1', 'publishDate1');
+// blogPosts.create('title2', 'content2', 'author2', 'publishDate2');
 
 // when the root of this router is called with GET, return
 // all current ShoppingList items
@@ -49,7 +49,7 @@ app.post('/blog-posts', jsonParser, (req, res) => {
 // of that, log error and send back status code 400. otherwise
 // call `ShoppingList.update` with updated item.
 app.put('/blog-posts/:id', jsonParser, (req, res) => {
-    const requiredFields =;
+    var requiredFields;
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -60,8 +60,7 @@ app.put('/blog-posts/:id', jsonParser, (req, res) => {
     }
     if (req.params.id !== req.body.id) {
         const message = (
-            `Request path id (${req.params.id}) and request body id `
-            `(${req.body.id}) must match`);
+            `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`);
         console.error(message);
         return res.status(400).send(message);
     }

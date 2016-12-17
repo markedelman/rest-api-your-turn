@@ -1,20 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const winston = require('winston');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const {BlogPosts} = require('./models');
+const {blogPosts} = require('./models');
 const app = express();
 // log the http layer
 app.use(morgan('common'));
+app.use(winston('public'));
 // we're going to add some items to ShoppingList
 // so there's some data to look at
-blogPosts.create('title', 'content', 'author name');
+blogPosts.create('title', 'content', 'author', 'publishDate');
 
 // adding some recipes to `Recipes` so there's something
 // to retrieve.
-blogPosts.create('random title1', ['something about life1', 'random new author1']);
-blogPosts.create('random title2', ['something about life2', 'random new author2']);
+blogPosts.create('title1', ['content1', 'author1', 'publishDate1']);
+blogPosts.create('title2', ['content2', 'author2', 'publishDate2']);
 
 // when the root of this router is called with GET, return
 // all current ShoppingList items
@@ -24,7 +26,7 @@ app.get('/blog-posts', (req, res) => {
 
 app.post('/blog-posts', jsonParser, (req, res) => {
     // ensure `name` and `budget` are in request body
-    const requiredFields = ['name', 'budget'];
+    const requiredFields = ['title', 'content', 'author', 'publishDate'];
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -34,7 +36,7 @@ app.post('/blog-posts', jsonParser, (req, res) => {
         }
     }
 
-    const item = blogPosts.create(req.body.name, req.body.budget);
+    const item = blogPosts.create(req.body.title, req.body.content, req.body.author, req.body.publishDate);
     res.status(201).json(item);
 });
 
@@ -44,7 +46,7 @@ app.post('/blog-posts', jsonParser, (req, res) => {
 // of that, log error and send back status code 400. otherwise
 // call `ShoppingList.update` with updated item.
 app.put('/blog-posts/:id', jsonParser, (req, res) => {
-    const requiredFields = ['name', 'checked', 'id'];
+    const requiredFields =;
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -60,18 +62,20 @@ app.put('/blog-posts/:id', jsonParser, (req, res) => {
         console.error(message);
         return res.status(400).send(message);
     }
-    console.log(`Updating blog-post list item \`${req.params.id}\``);
+    console.log(`Updating blog-post list \`${req.params.id}\``);
     const updatedItem = blogPosts.update({
-        id: req.params.id,
-        name: req.body.name,
-        checked: req.body.checked
+        id: req.body.id,
+        title: req.body.title,
+        content: req.body.content,
+        author: req.body.author,
+        publishDate: req.body.publishDate
     });
     res.status(204).json(updatedItem);
 });
 
 app.delete('/blog-posts/:id', (req, res) => {
     blogPosts.delete(req.params.id);
-    console.log(`Deleted blogPosts item \`${req.params.id}\``);
+    console.log(`Deleted blog post \`${req.params.id}\``);
     res.status(204).end();
 });
 
@@ -81,7 +85,7 @@ app.delete('/blog-posts/:id', (req, res) => {
 // if okay, add new item, and return it with a status 201.
 app.post('/blog-posts', jsonParser, (req, res) => {
     // ensure `name` and `budget` are in request body
-    const requiredFields = ['name', 'ingredients'];
+    const requiredFields = ['id', 'title', 'content', 'author', 'publishDate'];
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -90,7 +94,7 @@ app.post('/blog-posts', jsonParser, (req, res) => {
             return res.status(400).send(message);
         }
     }
-    const item = blogPosts.create(req.body.name, req.body.ingredients);
+    const item = blogPosts.create(req.body.title, req.body.content, req.body.author, req.body.publishDate);
     res.status(201).json(item);
 });
 

@@ -8,7 +8,7 @@ const app = express();
 app.use(morgan('common'));
 blogPosts.create('title', 'content', 'author', 'publishDate');
 
-//to add more objects in the API
+//to add more objects in the API.
 // blogPosts.create('Name1', 'content1', 'author1', 'publishDate1');
 // blogPosts.create('title2', 'content2', 'author2', 'publishDate2');
 

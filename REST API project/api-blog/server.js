@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const morgan = require('morgan');
@@ -6,12 +5,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const { blogPosts } = require('./models');
 const app = express();
-
 app.use(morgan('common'));
-
-
-
-
 blogPosts.create('title', 'content', 'author', 'publishDate');
 
 //to add more objects in the API
@@ -44,6 +38,8 @@ app.post('/blog-posts', jsonParser, (req, res) => {
     const item = blogPosts.create(req.body.title, req.body.content, req.body.author, req.body.publishDate);
     res.status(201).json(item);
 });
+
+
 
 
 
@@ -90,6 +86,9 @@ app.delete('/blog-posts/:id', (req, res) => {
 
 
 
+
+
 app.listen(process.env.PORT || 8080, () => {
     console.log(`Your app is listening on port ${process.env.PORT || 8080}`);
 });
+

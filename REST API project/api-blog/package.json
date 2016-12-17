@@ -1,5 +1,5 @@
 {
-  "name": "my-hyperdev-app",
+  "name": "blogpost api",
   "version": "0.0.1",
   "description": "What am I about?",
   "main": "server.js",
@@ -17,11 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://hyperdev.com/#!/project/welcome-project"
+    // "url": "https://hyperdev.com/#!/project/welcome-project"
+    "url": "localhost:8080"
   },
   "keywords": [
     "node",
-    "hyperdev",
+    // "hyperdev",
     "express"
   ],
   "license": "MIT"

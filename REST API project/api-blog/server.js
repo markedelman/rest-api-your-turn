@@ -1,6 +1,9 @@
+var connect = require('connect');
+var serveStatic = require('serve-static');
+connect().use(serveStatic(__dirname + '/blog.html')).listen(8080)
 const express = require('express');
 const router = express.Router();
-const winston = require('winston');
+// const winston = require('winston');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
@@ -8,7 +11,7 @@ const {blogPosts} = require('./models');
 const app = express();
 // log the http layer
 app.use(morgan('common'));
-app.use(winston('public'));
+// app.use(winston('public'));
 // we're going to add some items to ShoppingList
 // so there's some data to look at
 blogPosts.create('title', 'content', 'author', 'publishDate');
